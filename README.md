@@ -27,7 +27,6 @@ Insert some data into a time series.
 
 ```csharp
 db.WritePoints("weather_station", new[] { "temperature", "windspeed" }, new[] { "11", "8" });
-
 ```
 
 Or
@@ -56,6 +55,6 @@ foreach (var point in result.Points)
 	int temperature = point[2];
 	int windspeed = point[3];
 
-	Console.WriteLine("{0} ({1}) : {2}°C {3} mph", date.ToLongTimeString(), temperature, windspeed);
+	Console.WriteLine("{0} : {1}°C {2} mph", date.ToLongTimeString(), temperature, windspeed);
 }
 ```
