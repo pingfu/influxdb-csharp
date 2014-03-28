@@ -11,7 +11,7 @@ namespace influxdb_csharp_example
 
         static void Main()
         {
-            var influxdb = new InfluxDb("http://localhost:8086", "root", "root", "test");
+            var influxdb = new InfluxDb("http://localhost:8086", "root", "root", "sampledatabase");
 
             try
             {
