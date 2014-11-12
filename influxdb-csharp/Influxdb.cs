@@ -39,10 +39,10 @@ namespace Influxdb
         /// </summary>
         public enum HttpVerb
         {
-            Get,
-            Put,
-            Post,
-            Delete
+            GET,
+            PUT,
+            POST,
+            DELETE
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace Influxdb
         {
             Invoke(new HttpRequest
             {
-                Verb = HttpVerb.Get,
+                Verb = HttpVerb.GET,
                 Path = "/cluster_admins/authenticate"
             });
 
@@ -221,7 +221,7 @@ namespace Influxdb
         private void WritePoints(string json)
         {
             Invoke( new HttpRequest {
-                Verb = HttpVerb.Post,
+                Verb = HttpVerb.POST,
                 Path = String.Format("/db/{0}/series", _session.Database),
                 UrlParameters = new UrlParameterCollection { { "time_precision", "m" } },
                 Payload = json
@@ -288,7 +288,7 @@ namespace Influxdb
         {
             var result = Invoke(new HttpRequest
             {
-                Verb = HttpVerb.Get,
+                Verb = HttpVerb.GET,
                 Path = String.Format("/db/{0}/series", _session.Database),
                 UrlParameters = new UrlParameterCollection { { "time_precision", "m" }, { "q", command } }
             });
@@ -297,14 +297,24 @@ namespace Influxdb
             return JsonConvert.DeserializeObject<TimeSeriesContainer[]>(result)[0];
         }
 
-        public NotImplemented CreateDatabase(string name)
+        public void CreateDatabase(string name)
         {
-            throw new NotImplementedException();
+            Database d = new Database() { Name = name };
+            var result = Invoke(new HttpRequest
+            {
+                Verb = HttpVerb.POST,
+                Path = "/db",
+                Payload = JsonConvert.SerializeObject(d)
+            });
         }
 
-        public NotImplemented DeleteDatabase(string name)
+        public void DeleteDatabase(string name)
         {
-            throw new NotImplementedException();
+            var result = Invoke(new HttpRequest
+            {
+                Verb = HttpVerb.DELETE,
+                Path = string.Format("/db/{0}", name)
+            });
         }
 
         /// <summary>
@@ -315,7 +325,7 @@ namespace Influxdb
         {
             var result = Invoke(new HttpRequest
             {
-                Verb = HttpVerb.Get,
+                Verb = HttpVerb.GET,
                 Path = "/db"
             });
 
@@ -330,7 +340,7 @@ namespace Influxdb
         {
             var result = Invoke(new HttpRequest
             {
-                Verb = HttpVerb.Get,
+                Verb = HttpVerb.GET,
                 Path = String.Format("/db/{0}/series", _session.Database),
                 UrlParameters = new UrlParameterCollection { { "q", "list series" } }
             });
