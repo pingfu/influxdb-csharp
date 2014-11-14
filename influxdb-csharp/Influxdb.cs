@@ -348,9 +348,13 @@ namespace Influxdb
             return JsonConvert.DeserializeObject<Series[]>(result);
         }
 
-        public NotImplemented DeleteSeries(string series)
+		public void DeleteSeries(string name)
         {
-            throw new NotImplementedException();
+			var result = Invoke(new HttpRequest
+			{
+				Verb = HttpVerb.DELETE,
+				Path = string.Format("/db/{0}/series/{1}", _session.Database, name)
+			});
         }
 
         public NotImplemented ListClusterAdmins()
