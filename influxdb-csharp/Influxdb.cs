@@ -39,10 +39,12 @@ namespace Influxdb
         /// </summary>
         public enum HttpVerb
         {
+            // ReSharper disable InconsistentNaming
             GET,
             PUT,
             POST,
             DELETE
+            // ReSharper restore InconsistentNaming
         }
 
         /// <summary>
@@ -299,8 +301,8 @@ namespace Influxdb
 
         public void CreateDatabase(string name)
         {
-            Database d = new Database() { Name = name };
-            var result = Invoke(new HttpRequest
+            var d = new Database { Name = name };
+            Invoke(new HttpRequest
             {
                 Verb = HttpVerb.POST,
                 Path = "/db",
@@ -310,7 +312,7 @@ namespace Influxdb
 
         public void DeleteDatabase(string name)
         {
-            var result = Invoke(new HttpRequest
+            Invoke(new HttpRequest
             {
                 Verb = HttpVerb.DELETE,
                 Path = string.Format("/db/{0}", name)
@@ -350,7 +352,7 @@ namespace Influxdb
 
 		public void DeleteSeries(string name)
         {
-			var result = Invoke(new HttpRequest
+            Invoke(new HttpRequest
 			{
 				Verb = HttpVerb.DELETE,
 				Path = string.Format("/db/{0}/series/{1}", _session.Database, name)
